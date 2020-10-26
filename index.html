@@ -29,10 +29,11 @@
 	<body>
 		<section class="section">
 			<div class="container">
-				<h1 class="title">Simpson API</h1>
-
-				<div class="content" id="chuck-norris"></div>
-			</div>
+        <h1 class="title">Simpsons Jokes</h1>
+           <button id="quotesButton">Click for a new quote</button>
+           <div class="content" id="quotes"></div>
+        
+      </div>
 		</section>
 
 		<!-- We need to load axios first! -->
@@ -40,7 +41,37 @@
 			src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"
 			integrity="sha256-S1J4GVHHDMiirir9qsXWc8ZWw74PHHafpsHp5PXtjTs="
 			crossorigin="anonymous"
-		></script>
-		<script></script>
+    ></script>
+    
+		<script>
+
+function fetchQuotesJSON() {
+
+  const url = `https://simpsons-quotes-api.herokuapp.com/quotes`;
+  axios.get(url)
+    .then(function(response) {
+      return response.data [0];
+    })
+    .then(function(quotes) {
+      console.log('data decoded from JSON:', quotes);
+
+      
+      const quotesHtml = `
+        <blockquote><strong>${quotes.quote}</strong></blockquote>
+        <em>${quotes.character}</em>
+        <img src="${quotes.image}"/>
+        `;
+      document.querySelector('#quotes').innerHTML = quotesHtml;
+    });
+}
+
+fetchQuotesJSON();
+
+document.getElementById("quotesButton").addEventListener("click", function() {
+            fetchQuotesJSON();
+});
+
+
+    </script>
 	</body>
 </html>
